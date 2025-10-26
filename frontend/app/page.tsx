@@ -1,5 +1,22 @@
 "use client";
-import WalletBar from "./components/WalletBar";
+import dynamic from "next/dynamic";
+
+// Componente de carga mientras se monta el WalletBar
+const LoadingWallet = () => (
+  <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 rounded-lg shadow-xl">
+    <h2 className="text-white text-2xl font-bold mb-4">
+      🌟 IntiDapp - Ilumina tu Futuro
+    </h2>
+    <p className="text-white">Cargando wallets...</p>
+  </div>
+);
+
+// Importar WalletBar solo en el cliente (sin SSR)
+const WalletBar = dynamic(() => import("./components/WalletBar"), {
+  ssr: false,
+  loading: LoadingWallet,
+});
+
 import MissionCard from "./components/MissionCard";
 import ProgressBar from "./components/ProgressBar";
 

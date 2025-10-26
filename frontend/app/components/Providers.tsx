@@ -14,9 +14,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
   // Detecta wallets instaladas (ArgentX, Braavos)
   const { connectors } = useInjectedConnectors({
     recommended: [argent(), braavos()],
-    includeRecommended: "onlyIfNoConnectors",
-    order: "random"
+    includeRecommended: "always",
+    order: "alphabetical"
   });
+
+  // Debug: ver conectores detectados
+  React.useEffect(() => {
+    console.log('Providers - Conectores:', connectors.length);
+    console.log('Providers - Lista:', connectors);
+  }, [connectors]);
 
   return (
     <StarknetConfig
