@@ -1,0 +1,31 @@
+# Claves privadas y secretos - NUNCA subir a GitHub
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Dependencias
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Archivos del sistema
+.DS_Store
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+
+# Scarb/Cairo
+contracts/target/
+
+# Temporal
+*.tmp
