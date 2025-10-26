@@ -20,29 +20,51 @@ export default function MissionCard({
   contractAddress 
 }: MissionProps) {
   const [isCompleting, setIsCompleting] = useState(false);
-  const { account } = useAccount();
+  const { account, address } = useAccount();
+
+  // Verificar si el contrato está desplegado
+  const isContractDeployed = contractAddress && 
+    contractAddress !== "0x0000000000000000000000000000000000000000000000000000000000000000";
 
   const handleComplete = async () => {
-    if (!account) {
+    if (!address) {
       alert("⚠️ Conecta tu wallet primero");
       return;
     }
 
     setIsCompleting(true);
+    
     try {
-      // Crear instancia del contrato
-      const contract = new Contract(CONTRACT_ABI, contractAddress, account);
-
-      // Llamar función complete_mission
-      const result = await contract.complete_mission(points);
-      
-      // Esperar confirmación
-      await account.waitForTransaction(result.transaction_hash);
-      
-      alert(`🎉 ¡Misión completada! +${points} puntos`);
+      if (isContractDeployed && account) {
+        // MODO BLOCKCHAIN: Interactuar con el contrato real
+        const contract = new Contract(CONTRACT_ABI, contractAddress, account);
+        const result = await contract.complete_mission(points);
+        await account.waitForTransaction(result.transaction_hash);
+        alert(`🎉 ¡Misión completada en blockchain! +${points} puntos`);
+      } else {
+        // MODO SIMULACIÓN: Guardar en localStorage
+        const storageKey = `intidapp_progress_${address}`;
+        const currentProgress = JSON.parse(localStorage.getItem(storageKey) || '{"missions": [], "totalPoints": 0}');
+        
+        // Verificar si ya completó esta misión
+        if (currentProgress.missions.includes(id)) {
+          alert("⚠️ Ya completaste esta misión");
+          return;
+        }
+        
+        // Registrar misión completada
+        currentProgress.missions.push(id);
+        currentProgress.totalPoints += points;
+        localStorage.setItem(storageKey, JSON.stringify(currentProgress));
+        
+        alert(`🎉 ¡Misión completada! +${points} puntos (Modo simulación)`);
+        
+        // Recargar para actualizar el progreso
+        window.location.reload();
+      }
     } catch (error) {
       console.error(error);
-      alert("❌ Error al completar misión");
+      alert("❌ Error al completar misión: " + (error as Error).message);
     } finally {
       setIsCompleting(false);
     }
@@ -59,9 +81,15 @@ export default function MissionCard({
       
       <p className="text-gray-600 mb-4">{description}</p>
       
+      {!isContractDeployed && (
+        <p className="text-sm text-orange-600 mb-2">
+          ℹ️ Modo simulación (sin contrato)
+        </p>
+      )}
+      
       <button
         onClick={handleComplete}
-        disabled={isCompleting}
+        disabled={isCompleting || !address}
         className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 transition"
       >
         {isCompleting ? "Completando..." : "Completar Misión 🚀"}
