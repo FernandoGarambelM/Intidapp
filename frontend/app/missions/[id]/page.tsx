@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAccount } from "@starknet-react/core";
-import { getMissionById } from "../../lib/missionsData";
+import { getMissionById, isMissionCompleted } from "../../lib/missionsData";
 import MissionSteps from "../../components/MissionSteps";
 
 export default function MissionDetailPage() {
@@ -11,9 +11,18 @@ export default function MissionDetailPage() {
   const { address } = useAccount();
   const [currentStep, setCurrentStep] = useState(1);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const missionId = Number(params.id);
   const mission = getMissionById(missionId);
+
+  // Verificar si la misión está completada
+  useEffect(() => {
+    if (address && mission) {
+      const completed = isMissionCompleted(missionId, address);
+      setIsCompleted(completed);
+    }
+  }, [address, missionId, mission]);
 
   useEffect(() => {
     if (!mission) {
@@ -51,36 +60,40 @@ export default function MissionDetailPage() {
     }
   };
 
-  const handleCompleteMission = () => {
+  const handleCompleteMission = async () => {
     if (!address) {
       alert("⚠️ Conecta tu wallet primero");
       return;
     }
 
     // Verificar si ya completó esta misión
-    const storageKey = `intidapp_progress_${address}`;
-    const currentProgress = JSON.parse(localStorage.getItem(storageKey) || '{"missions": [], "totalPoints": 0}');
-    
-    if (currentProgress.missions.includes(missionId)) {
+    if (isCompleted) {
       alert("⚠️ Ya completaste esta misión");
       return;
     }
 
-    // Registrar misión completada
-    currentProgress.missions.push(missionId);
-    currentProgress.totalPoints += mission.points;
-    localStorage.setItem(storageKey, JSON.stringify(currentProgress));
-    
-    // Mostrar modal de éxito
-    setShowCompletionModal(true);
-    
-    // Disparar evento personalizado para actualizar el progreso
-    window.dispatchEvent(new Event('missionCompleted'));
+    // Usar el servicio simple para completar la misión
+    const { simpleMissionService } = await import('../../services/simpleMissionService');
+    simpleMissionService.setUserWallet(address);
+    const result = simpleMissionService.completeMission(missionId);
 
-    // Redirigir después de 3 segundos
-    setTimeout(() => {
-      router.push('/');
-    }, 3000);
+    if (result.success) {
+      // Actualizar estado local
+      setIsCompleted(true);
+
+      // Mostrar modal de éxito
+      setShowCompletionModal(true);
+
+      // Disparar evento personalizado para actualizar el progreso
+      window.dispatchEvent(new Event('missionCompleted'));
+
+      // Redirigir después de 3 segundos
+      setTimeout(() => {
+        router.push('/');
+      }, 3000);
+    } else {
+      alert("⚠️ Error al completar la misión");
+    }
   };
 
   const currentStepData = mission.steps[currentStep - 1];
@@ -98,7 +111,7 @@ export default function MissionDetailPage() {
               <span className="text-2xl">←</span>
               <span className="hidden sm:inline">Volver a Inicio</span>
             </button>
-            
+
             <div className="flex items-center gap-4">
               {address ? (
                 <div className="flex items-center gap-2 bg-white bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-lg">
@@ -154,12 +167,22 @@ export default function MissionDetailPage() {
         {/* Botón de Completar (solo visible en el último paso) */}
         {currentStep === mission.steps.length && (
           <div className="mt-8">
-            <button
-              onClick={handleCompleteMission}
-              className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-lg font-bold text-lg hover:from-green-600 hover:to-emerald-700 transition shadow-lg"
-            >
-              🎉 Completar Misión y Reclamar {mission.points} Puntos
-            </button>
+            {isCompleted ? (
+              <div className="w-full bg-green-100 border-2 border-green-400 text-green-800 py-4 rounded-lg font-bold text-lg text-center">
+                ✅ Misión Completada - {mission.points} Puntos Reclamados
+              </div>
+            ) : !address ? (
+              <div className="w-full bg-orange-100 border-2 border-orange-400 text-orange-800 py-4 rounded-lg font-bold text-lg text-center">
+                ⚠️ Conecta tu wallet para reclamar la recompensa
+              </div>
+            ) : (
+              <button
+                onClick={handleCompleteMission}
+                className="w-full bg-linear-to-r from-green-500 to-emerald-600 text-white py-4 rounded-lg font-bold text-lg hover:from-green-600 hover:to-emerald-700 transition shadow-lg"
+              >
+                🎉 Completar Misión y Reclamar {mission.points} Puntos
+              </button>
+            )}
           </div>
         )}
       </div>

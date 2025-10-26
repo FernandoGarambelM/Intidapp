@@ -54,7 +54,7 @@ export default function ProgressBar({ contractAddress }: ProgressBarProps) {
       <div className="bg-gradient-to-br from-purple-50 to-blue-50 p-6 rounded-lg shadow-lg border-2 border-orange-200">
         <div className="flex justify-between mb-2">
           <div>
-            <h3 className="text-lg font-bold text-gray-800">Tu Progreso (Simulación)</h3>
+            <h3 className="text-lg font-bold text-gray-800">Tu Progreso</h3>
             <p className="text-xs text-orange-600">Sin contrato desplegado</p>
           </div>
           <span className="text-2xl font-bold text-purple-600">{progress.totalPoints} pts</span>

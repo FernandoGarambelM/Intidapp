@@ -9,6 +9,7 @@ import {
   voyager,
   jsonRpcProvider
 } from "@starknet-react/core";
+import { AccountProvider } from "./AccountProvider";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   // Detecta wallets instaladas (ArgentX, Braavos)
@@ -33,7 +34,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       connectors={connectors}
       explorer={voyager}
     >
-      {children}
+      <AccountProvider>
+        {children}
+      </AccountProvider>
     </StarknetConfig>
   );
 }
