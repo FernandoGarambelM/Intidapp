@@ -19,6 +19,7 @@ const WalletBar = dynamic(() => import("./components/WalletBar"), {
 
 import MissionCard from "./components/MissionCard";
 import ProgressBar from "./components/ProgressBar";
+import Link from "next/link";
 
 // ⚠️ NOTA: Por ahora usamos una dirección temporal
 // Después del despliegue, reemplazarás esto con la dirección real del contrato
@@ -63,6 +64,16 @@ export default function Home() {
         {/* Progress */}
         <div className="mb-8">
           <ProgressBar contractAddress={CONTRACT_ADDRESS} />
+        </div>
+
+        {/* Botón Tienda */}
+        <div className="mb-8 flex justify-end">
+          <Link
+            href="/shop"
+            className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-lg font-bold shadow-lg hover:from-yellow-500 hover:to-orange-600 transition-all flex items-center gap-2"
+          >
+            🛍️ Tienda de Recompensas
+          </Link>
         </div>
 
         {/* Missions Grid */}

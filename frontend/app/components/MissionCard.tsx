@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAccount } from "@starknet-react/core";
 import { Contract } from "starknet";
 import { CONTRACT_ABI } from "../lib/abi";
+import Link from "next/link";
 
 interface MissionProps {
   id: number;
@@ -88,13 +89,22 @@ export default function MissionCard({
         </p>
       )}
       
-      <button
-        onClick={handleComplete}
-        disabled={isCompleting || !address}
-        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 transition"
-      >
-        {isCompleting ? "Completando..." : "Completar Misión 🚀"}
-      </button>
+      <div className="flex gap-3">
+        <Link 
+          href={`/missions/${id}`}
+          className="flex-1 bg-white border-2 border-purple-400 text-purple-600 py-3 rounded-lg font-semibold hover:bg-purple-50 transition text-center"
+        >
+          📖 Ver Misión
+        </Link>
+        
+        <button
+          onClick={handleComplete}
+          disabled={isCompleting || !address}
+          className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 transition"
+        >
+          {isCompleting ? "Completando..." : "🚀 Completar"}
+        </button>
+      </div>
     </div>
   );
 }
