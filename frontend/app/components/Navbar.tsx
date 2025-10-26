@@ -2,6 +2,7 @@
 import { useAccountContext } from "./AccountProvider";
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Navbar() {
   const { shortAddress, disconnect, address, isDisconnecting } = useAccountContext();
@@ -14,7 +15,13 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-2xl">🌟</span>
+            <Image
+              src="/logo.png"
+              alt="IntiDapp Logo"
+              width={32}
+              height={32}
+              className="rounded"
+            />
             <span className="text-xl font-bold text-gray-800">IntiDapp</span>
           </Link>
 
@@ -66,7 +73,7 @@ export default function Navbar() {
                     {address}
                   </p>
                 </div>
-                
+
                 <div className="p-2">
                   <button
                     onClick={() => {
@@ -77,7 +84,7 @@ export default function Navbar() {
                   >
                     📋 Copiar dirección
                   </button>
-                  
+
                   <Link
                     href="/profile"
                     onClick={() => setShowDropdown(false)}
@@ -85,9 +92,9 @@ export default function Navbar() {
                   >
                     👤 Ver perfil
                   </Link>
-                  
+
                   <hr className="my-2" />
-                  
+
                   <button
                     onClick={() => {
                       setShowDropdown(false);

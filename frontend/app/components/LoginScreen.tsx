@@ -2,6 +2,7 @@
 import { useConnect } from "@starknet-react/core";
 import { useAccountContext } from "./AccountProvider";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function LoginScreen() {
     const { connectors } = useConnect();
@@ -12,7 +13,7 @@ export default function LoginScreen() {
         // Limpiar cualquier conexión previa al mostrar login
         localStorage.removeItem('starknet-last-wallet');
         localStorage.removeItem('wallet-connect-session');
-        
+
         const timer = setTimeout(() => {
             setIsReady(true);
         }, 800); // Tiempo más largo para asegurar limpieza
@@ -25,9 +26,18 @@ export default function LoginScreen() {
                 <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4">
                     <div className="text-center">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-                        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                            🌟 IntiDapp
-                        </h2>
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                            <Image
+                                src="/logo.png"
+                                alt="IntiDapp Logo"
+                                width={32}
+                                height={32}
+                                className="rounded"
+                            />
+                            <h2 className="text-2xl font-bold text-gray-800">
+                                IntiDapp
+                            </h2>
+                        </div>
                         <p className="text-gray-600">Detectando wallets...</p>
                     </div>
                 </div>
@@ -39,9 +49,18 @@ export default function LoginScreen() {
         <div className="min-h-screen bg-linear-to-br from-purple-100 via-blue-50 to-pink-100 flex items-center justify-center">
             <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4">
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2">
-                        🌟 IntiDapp
-                    </h1>
+                    <div className="flex items-center justify-center gap-3 mb-4">
+                        <Image
+                            src="/logo.png"
+                            alt="IntiDapp Logo"
+                            width={48}
+                            height={48}
+                            className="rounded"
+                        />
+                        <h1 className="text-3xl font-bold text-gray-800">
+                            IntiDapp
+                        </h1>
+                    </div>
                     <p className="text-lg text-purple-600 font-semibold mb-2">
                         Ilumina tu Futuro
                     </p>
@@ -84,9 +103,18 @@ export default function LoginScreen() {
                         ))
                     ) : (
                         <div className="text-center p-6 bg-yellow-50 rounded-lg border border-yellow-200">
-                            <p className="text-yellow-800 font-semibold mb-2">
-                                ⚠️ No se detectaron wallets
-                            </p>
+                            <div className="flex items-center justify-center gap-2 mb-2">
+                                <Image
+                                    src="/logo.png"
+                                    alt="IntiDapp Logo"
+                                    width={24}
+                                    height={24}
+                                    className="rounded"
+                                />
+                                <p className="text-yellow-800 font-semibold">
+                                    No se detectaron wallets
+                                </p>
+                            </div>
                             <p className="text-yellow-700 text-sm mb-4">
                                 Para usar IntiDapp necesitas instalar una wallet compatible:
                             </p>
@@ -95,17 +123,31 @@ export default function LoginScreen() {
                                     href="https://www.argent.xyz/argent-x/"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                                    className="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2"
                                 >
-                                    🦊 Instalar Argent X
+                                    <Image
+                                        src="/logo.png"
+                                        alt="IntiDapp Logo"
+                                        width={20}
+                                        height={20}
+                                        className="rounded"
+                                    />
+                                    Instalar Argent X
                                 </a>
                                 <a
                                     href="https://braavos.app/"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="block bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition"
+                                    className="block bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition flex items-center justify-center gap-2"
                                 >
-                                    🛡️ Instalar Braavos
+                                    <Image
+                                        src="/logo.png"
+                                        alt="IntiDapp Logo"
+                                        width={20}
+                                        height={20}
+                                        className="rounded"
+                                    />
+                                    Instalar Braavos
                                 </a>
                             </div>
                         </div>
@@ -113,7 +155,16 @@ export default function LoginScreen() {
                 </div>
 
                 <div className="mt-8 text-center text-sm text-gray-500">
-                    <p>🔒 Conexión segura con Starknet</p>
+                    <div className="flex items-center justify-center gap-2 mb-1">
+                        <Image
+                            src="/logo.png"
+                            alt="IntiDapp Logo"
+                            width={16}
+                            height={16}
+                            className="rounded"
+                        />
+                        <p>Conexión segura con Starknet</p>
+                    </div>
                     <p>Tus claves privadas nunca salen de tu wallet</p>
                 </div>
             </div>

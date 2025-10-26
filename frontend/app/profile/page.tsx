@@ -7,6 +7,9 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-linear-to-br from-purple-100 via-blue-50 to-pink-100 p-8">
       <div className="max-w-4xl mx-auto">
+        {/* Header con logo */}
+        {/* <Header /> */}
+        
         <div className="bg-white rounded-2xl shadow-xl p-8">
           {/* Header */}
           <div className="text-center mb-8">

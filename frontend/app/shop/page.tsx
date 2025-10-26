@@ -65,7 +65,10 @@ export default function ShopPage() {
   return (
     <div className="min-h-screen bg-linear-to-br from-purple-100 via-blue-50 to-pink-100 p-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
+        {/* Header con logo */}
+        {/* <Header /> */}
+
+        {/* Page Title */}
         <div className="mb-8 bg-white p-6 rounded-2xl shadow-lg">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
             🛍️ Tienda de Recompensas
@@ -73,15 +76,10 @@ export default function ShopPage() {
           <p className="text-gray-600 mb-4">
             Canjea tus puntos por recompensas exclusivas
           </p>
-          <div className="flex flex-wrap items-center gap-4">
-            <div className="bg-purple-100 px-4 py-2 rounded-lg">
-              <span className="text-purple-600 font-semibold">
-                💰 Puntos disponibles: {userPoints}
-              </span>
-            </div>
-            <div className="text-sm text-gray-500">
-              Conectado como: <span className="font-mono">{shortAddress}</span>
-            </div>
+          <div className="bg-purple-100 px-4 py-2 rounded-lg inline-block">
+            <span className="text-purple-600 font-semibold">
+              💰 Puntos disponibles: {userPoints}
+            </span>
           </div>
         </div>
 

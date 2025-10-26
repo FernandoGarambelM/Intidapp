@@ -27,16 +27,16 @@ export default function MissionsPage() {
   return (
     <div className="min-h-screen bg-linear-to-br from-purple-100 via-blue-50 to-pink-100 p-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
+        {/* Header con logo */}
+        {/* <Header /> */}
+
+        {/* Page Title */}
         <div className="mb-8 bg-white p-6 rounded-2xl shadow-lg">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
             📚 Todas las Misiones
           </h1>
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600">
             Completa misiones para ganar puntos y desbloquear recompensas
-          </p>
-          <p className="text-sm text-purple-600">
-            Conectado como: <span className="font-mono font-semibold">{shortAddress}</span>
           </p>
         </div>
 
@@ -72,11 +72,10 @@ export default function MissionsPage() {
           {missions.map((mission) => (
             <div
               key={mission.id}
-              className={`bg-white p-6 rounded-2xl shadow-lg border-2 transition-all ${
-                (mission as any).isCompleted
-                  ? 'border-green-200 bg-green-50'
-                  : 'border-purple-200 hover:border-purple-400'
-              }`}
+              className={`bg-white p-6 rounded-2xl shadow-lg border-2 transition-all ${(mission as any).isCompleted
+                ? 'border-green-200 bg-green-50'
+                : 'border-purple-200 hover:border-purple-400'
+                }`}
             >
               {/* Mission Header */}
               <div className="mb-4">

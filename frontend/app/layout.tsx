@@ -17,6 +17,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "IntiDapp - Aprende Blockchain Jugando",
   description: "Plataforma educativa gamificada para aprender Ethereum y Starknet",
+  icons: {
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
 };
 
 export default function RootLayout({

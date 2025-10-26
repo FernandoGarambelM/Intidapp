@@ -35,14 +35,14 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-linear-to-br from-purple-100 via-blue-50 to-pink-100 p-8">
       <div className="max-w-6xl mx-auto">
-        {/* Welcome Header */}
+        {/* Header con logo */}
+        {/* <Header /> */}
+
+        {/* Welcome Section */}
         <div className="mb-8 bg-white p-6 rounded-2xl shadow-lg">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
             ¡Bienvenido de vuelta! 👋
-          </h1>
-          <p className="text-gray-600 mb-4">
-            Conectado como <span className="font-mono font-semibold text-purple-600">{shortAddress}</span>
-          </p>
+          </h2>
           
           {/* Stats Overview */}
           {stats && (
@@ -138,7 +138,14 @@ export default function Home() {
 
         {/* Footer */}
         <div className="mt-12 text-center text-gray-600">
-          <p>🌟 IntiDapp - Iluminando el futuro de América Latina</p>
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <img 
+              src="/logo.png" 
+              alt="IntiDapp Logo" 
+              className="w-8 h-8 object-contain"
+            />
+            <p>IntiDapp - Iluminando el futuro de América Latina</p>
+          </div>
           <p className="text-sm mt-2">
             Construido con ❤️ usando Starknet y Next.js
           </p>

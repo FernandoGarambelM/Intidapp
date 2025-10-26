@@ -113,7 +113,7 @@ export default function MissionDetailPage() {
             </button>
 
             <div className="flex items-center gap-4">
-              {address ? (
+              {/* {address ? (
                 <div className="flex items-center gap-2 bg-white bg-opacity-20 backdrop-blur-sm px-4 py-2 rounded-lg">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                   <span className="text-white text-sm font-medium">
@@ -126,7 +126,7 @@ export default function MissionDetailPage() {
                     Sin wallet conectada
                   </span>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
