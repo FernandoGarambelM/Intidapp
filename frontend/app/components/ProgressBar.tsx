@@ -15,12 +15,24 @@ export default function ProgressBar({ contractAddress }: ProgressBarProps) {
 
   useEffect(() => {
     if (address && !isValidContract) {
-      // Leer progreso desde localStorage en modo simulación
-      const storageKey = `intidapp_progress_${address}`;
-      const saved = localStorage.getItem(storageKey);
-      if (saved) {
-        setProgress(JSON.parse(saved));
-      }
+      // Función para leer progreso
+      const loadProgress = () => {
+        const storageKey = `intidapp_progress_${address}`;
+        const saved = localStorage.getItem(storageKey);
+        if (saved) {
+          setProgress(JSON.parse(saved));
+        }
+      };
+
+      // Cargar progreso inicial
+      loadProgress();
+
+      // Escuchar evento de misión completada
+      window.addEventListener('missionCompleted', loadProgress);
+
+      return () => {
+        window.removeEventListener('missionCompleted', loadProgress);
+      };
     }
   }, [address, isValidContract]);
 

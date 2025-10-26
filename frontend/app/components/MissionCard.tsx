@@ -49,6 +49,7 @@ export default function MissionCard({
         // Verificar si ya completó esta misión
         if (currentProgress.missions.includes(id)) {
           alert("⚠️ Ya completaste esta misión");
+          setIsCompleting(false);
           return;
         }
         
@@ -57,10 +58,10 @@ export default function MissionCard({
         currentProgress.totalPoints += points;
         localStorage.setItem(storageKey, JSON.stringify(currentProgress));
         
-        alert(`🎉 ¡Misión completada! +${points} puntos (Modo simulación)`);
+        alert(`🎉 ¡Misión completada! +${points} puntos`);
         
-        // Recargar para actualizar el progreso
-        window.location.reload();
+        // Disparar evento personalizado para actualizar el progreso
+        window.dispatchEvent(new Event('missionCompleted'));
       }
     } catch (error) {
       console.error(error);
