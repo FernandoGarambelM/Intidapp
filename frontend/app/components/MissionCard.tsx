@@ -43,7 +43,7 @@ export default function MissionCard({
         await account.waitForTransaction(result.transaction_hash);
         alert(`🎉 ¡Misión completada en blockchain! +${points} puntos`);
       } else {
-        // MODO SIMULACIÓN: Guardar en localStorage
+        // MODO SIMULACIÓN: Usar servicio de puntos
         const storageKey = `intidapp_progress_${address}`;
         const currentProgress = JSON.parse(localStorage.getItem(storageKey) || '{"missions": [], "totalPoints": 0}');
         
@@ -56,8 +56,12 @@ export default function MissionCard({
         
         // Registrar misión completada
         currentProgress.missions.push(id);
-        currentProgress.totalPoints += points;
         localStorage.setItem(storageKey, JSON.stringify(currentProgress));
+        
+        // Añadir puntos usando el servicio
+        const { pointsService } = await import('../services/pointsService');
+        pointsService.setUserWallet(address);
+        pointsService.addPoints(points);
         
         alert(`🎉 ¡Misión completada! +${points} puntos`);
         
@@ -85,25 +89,17 @@ export default function MissionCard({
       
       {!isContractDeployed && (
         <p className="text-sm text-orange-600 mb-2">
-          ℹ️ Modo simulación (sin contrato)
+          {/* ℹ️ Modo simulación (sin contrato) */}
         </p>
       )}
       
       <div className="flex gap-3">
         <Link 
           href={`/missions/${id}`}
-          className="flex-1 bg-white border-2 border-purple-400 text-purple-600 py-3 rounded-lg font-semibold hover:bg-purple-50 transition text-center"
+          className="w-full bg-linear-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition text-center"
         >
-          📖 Ver Misión
+          📖 Ingresar a la Misión
         </Link>
-        
-        <button
-          onClick={handleComplete}
-          disabled={isCompleting || !address}
-          className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 transition"
-        >
-          {isCompleting ? "Completando..." : "🚀 Completar"}
-        </button>
       </div>
     </div>
   );

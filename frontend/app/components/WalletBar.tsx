@@ -22,13 +22,13 @@ export default function WalletBar() {
     if (isReady) {
       console.log('Conectores detectados:', connectors.length);
       console.log('Lista de conectores:', connectors.map(c => c.id || c.name));
-      console.log('window.starknet existe:', !!window.starknet);
+      console.log('window.starknet existe:', !!(window as any).starknet);
     }
   }, [isReady, connectors]);
 
   if (!isReady) {
     return (
-      <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 rounded-lg shadow-xl">
+      <div className="bg-linear-to-r from-purple-600 to-blue-600 p-6 rounded-lg shadow-xl">
         <h2 className="text-white text-2xl font-bold mb-4">
           🌟 IntiDapp - Ilumina tu Futuro
         </h2>
@@ -38,11 +38,11 @@ export default function WalletBar() {
   }
 
   return (
-    <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 rounded-lg shadow-xl">
+    <div className="bg-linear-to-r from-purple-600 to-blue-600 p-6 rounded-lg shadow-xl">
       <h2 className="text-white text-2xl font-bold mb-4">
         🌟 IntiDapp - Ilumina tu Futuro
       </h2>
-      
+
       {!address ? (
         <div className="space-y-3">
           <p className="text-white mb-3">
